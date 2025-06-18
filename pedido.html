@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedido Especial - Chococrush</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #FFEFF3;
+      margin: 0;
+      padding: 20px;
+      color: #4B2E2E;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .volver {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 20px;
+      color: #DE5D83;
+      background-color: white;
+      border-radius: 50%;
+      padding: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-decoration: none;
+      z-index: 1000;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #DE5D83;
+      margin-top: 70px;
+      margin-bottom: 20px;
+    }
+
+    .contenedor {
+      background-color: #FFD6DC;
+      border-radius: 20px;
+      padding: 25px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #4B2E2E;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 93%;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: 15px;
+      border: none;
+      font-size: 14px;
+      background-color: #FFEFF3;
+      color: #4B2E2E;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+      outline: none;
+    }
+
+    select {
+      appearance: none;
+      background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg"><polygon points="70,100 20,40 120,40" fill="%23DE5D83"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+
+    .boton-enviar {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .boton-enviar:hover {
+      background-color: #c44c70;
+      transform: translateY(-2px);
+    }
+
+    .mensaje-confirmacion {
+      display: none;
+      background-color: #FFEDF1;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      color: #B8415D;
+      margin-top: 30px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+      max-width: 460px;
+    }
+
+    .mensaje-confirmacion i {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #DE5D83;
+    }
+
+    .mensaje-confirmacion button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #DE5D83;
+      color: white;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .mensaje-confirmacion button:hover {
+      background-color: #c44c70;
+    }
+  </style>
+</head>
+<body>
+  <a class="volver" href="index.html"><i class="fas fa-arrow-left"></i></a>
+  <h1>Pedido Especial</h1>
+
+  <form id="formularioPedido" class="contenedor" onsubmit="enviarFormulario(event)">
+    <label for="evento">Tipo de evento</label>
+    <select id="evento" required>
+      <option disabled selected>Selecciona...</option>
+      <option>Boda</option>
+      <option>XV Años</option>
+      <option>Baby Shower</option>
+      <option>Graduación</option>
+      <option>Otro</option>
+    </select>
+
+    <label for="nombre">Nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ej. Ana García" required>
+
+    <label for="fecha">Fecha del evento</label>
+    <input type="date" id="fecha" required>
+
+    <label for="hora">Hora del evento</label>
+    <input type="time" id="hora" required>
+
+    <label for="personas">Número de personas</label>
+    <input type="number" id="personas" min="1" placeholder="Ej. 50" required>
+
+    <label for="pastel">Pastel deseado</label>
+    <input type="text" id="pastel" placeholder="Ej. Vainilla 3 pisos" required>
+
+    <label for="detalles">Detalles especiales</label>
+    <textarea id="detalles" placeholder="Colores, temática, instrucciones..."></textarea>
+
+    <label for="contacto">Teléfono o correo</label>
+    <input type="text" id="contacto" placeholder="Ej. 555-123-4567 o hola@email.com" required>
+
+    <button type="submit" class="boton-enviar">Enviar Pedido</button>
+  </form>
+
+  <div class="mensaje-confirmacion" id="mensaje">
+    <i class="fas fa-check-circle"></i>
+    <p>¡Tu pedido especial ha sido enviado!<br>Nos pondremos en contacto contigo muy pronto 💖</p>
+    <button onclick="volver()">OK</button>
+  </div>
+
+  <script>
+    function enviarFormulario(e) {
+      e.preventDefault();
+      document.getElementById('formularioPedido').style.display = 'none';
+      document.getElementById('mensaje').style.display = 'block';
+    }
+
+    function volver() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
+
+</html>

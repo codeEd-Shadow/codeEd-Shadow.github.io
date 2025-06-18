@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agendar Cita - Chococrush</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #FFEFF3;
+      margin: 0;
+      padding: 20px;
+      color: #4B2E2E;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .volver {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 20px;
+      color: #DE5D83;
+      background-color: white;
+      border-radius: 50%;
+      padding: 12px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .volver:hover {
+      transform: scale(1.1);
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #DE5D83;
+      margin-top: 70px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contenedor {
+      background-color: #FFD6DC;
+      border-radius: 20px;
+      padding: 25px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .contenedor:hover {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #4B2E2E;
+    }
+
+    input, select, textarea {
+      width: 93%;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: 15px;
+      border: none;
+      font-size: 14px;
+      background-color: #FFF7FA;
+      color: #4B2E2E;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      box-shadow: 0 0 0 3px #FFD6DC;
+    }
+
+    select {
+      appearance: none;
+      background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg"><polygon points="70,100 20,40 120,40" fill="%23DE5D83"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    .boton-enviar {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    }
+
+    .boton-enviar:hover {
+      background-color: #c44c70;
+      transform: translateY(-2px);
+    }
+
+    .mensaje-confirmacion {
+      display: none;
+      background-color: #FFEDF1;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      color: #B8415D;
+      margin-top: 30px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+      max-width: 460px;
+    }
+
+    .mensaje-confirmacion i {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #DE5D83;
+    }
+
+    .mensaje-confirmacion button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #DE5D83;
+      color: white;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .mensaje-confirmacion button:hover {
+      background-color: #c44c70;
+    }
+  </style>
+</head>
+<body>
+  <a class="volver" href="index.html"><i class="fas fa-arrow-left"></i></a>
+  <h1><i class="fas fa-calendar-check"></i> Agendar Cita de Prueba</h1>
+
+  <form id="formularioCita" class="contenedor" onsubmit="enviarFormulario(event)">
+    <label for="nombre">Nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ej. Sofía Ramírez" required>
+
+    <label for="fecha">Fecha de la cita</label>
+    <input type="date" id="fecha" required>
+
+    <label for="hora">Hora</label>
+    <input type="time" id="hora" required>
+
+    <label for="sucursal">Sucursal</label>
+    <select id="sucursal" required>
+      <option disabled selected>Selecciona...</option>
+      <option>Chococrush Centro</option>
+      <option>Chococrush Norte</option>
+      <option>Chococrush Sur</option>
+    </select>
+
+    <label for="sabores">Sabores a probar</label>
+    <input type="text" id="sabores" placeholder="Ej. Chocolate y frutos rojos" required>
+
+    <label for="personas">¿Cuántas personas asistirán?</label>
+    <input type="number" id="personas" placeholder="Ej. 2" min="1" required>
+
+    <label for="contacto">Teléfono o correo</label>
+    <input type="text" id="contacto" placeholder="Ej. 55 1234 5678 o mail@email.com" required>
+
+    <label for="notas">Notas adicionales (opcional)</label>
+    <textarea id="notas" placeholder="Ej. Llevar catálogo de diseños..."></textarea>
+
+    <button type="submit" class="boton-enviar">Confirmar cita</button>
+  </form>
+
+  <div class="mensaje-confirmacion" id="mensaje">
+    <i class="fas fa-check-circle"></i>
+    <p>¡Tu cita ha sido agendada con éxito!<br>Nos vemos pronto para una dulce experiencia 💕</p>
+    <button onclick="window.location.href='index.html'">OK</button>
+  </div>
+
+  <script>
+    function enviarFormulario(e) {
+      e.preventDefault();
+      document.getElementById('formularioCita').style.display = 'none';
+      document.getElementById('mensaje').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

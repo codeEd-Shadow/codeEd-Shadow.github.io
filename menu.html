@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú - Chococrush</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #FFEFF3;
+      margin: 0;
+      padding: 20px;
+      color: #4B2E2E;
+    }
+
+    a.volver {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 20px;
+      color: #DE5D83;
+      background-color: white;
+      border-radius: 50%;
+      padding: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-decoration: none;
+      z-index: 999;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      color: #DE5D83;
+      margin-bottom: 30px;
+    }
+
+    .catalogo {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .producto-card {
+      background-color: #FFD6DC;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .producto-card img {
+      width: 100%;
+      max-width: 250px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+    }
+
+    .producto-card h3 {
+      font-size: 18px;
+      color: #B8415D;
+      margin-bottom: 8px;
+    }
+
+    .producto-card p {
+      font-size: 14px;
+      color: #4B2E2E;
+      margin-bottom: 12px;
+    }
+
+    .producto-card .precio {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .boton-agregar {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 15px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .boton-agregar:hover {
+      background-color: #c44c70;
+      transform: translateY(-2px);
+    }
+
+    .carrito-icono {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #DE5D83;
+      color: white;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .contador-carrito {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #fff;
+      color: #DE5D83;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-contenido {
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      color: #4B2E2E;
+    }
+
+    .modal-contenido ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 15px 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .modal-contenido li {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .modal-contenido li button {
+      background: none;
+      border: none;
+      color: #DE5D83;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .cerrar-modal, .comprar-btn {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    #mensajeCompra {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #FFEDF1;
+      border-radius: 15px;
+      text-align: center;
+      color: #B8415D;
+    }
+
+    #mensajeCompra button {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <a class="volver" href="index.html"><i class="fas fa-arrow-left"></i></a>
+  <h1>Catálogo de Pasteles</h1>
+
+  <div class="carrito-icono" onclick="mostrarModal()">
+    <i class="fas fa-shopping-cart"></i>
+    <div class="contador-carrito" id="contador">0</div>
+  </div>
+
+  <div class="catalogo">
+    <div class="producto-card">
+      <img src="img/Pchocolate.jpg" alt="Pastel de Chocolate">
+      <h3>Pastel de Chocolate</h3>
+      <p>Delicioso pastel con mucho chocolate.</p>
+      <div class="precio">$250</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Chocolate', 250)">Agregar al carrito</button>
+    </div>
+
+    <div class="catalogo">
+    <div class="producto-card">
+      <img src="img/Ptresleches.jpg" alt="Pastel de Chocolate">
+      <h3>Pastel de Tres Leches</h3>
+      <p>Delicioso pastel dulce.</p>
+      <div class="precio">$300</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Chocolate', 250)">Agregar al carrito</button>
+    </div>
+
+    <div class="catalogo">
+    <div class="producto-card">
+      <img src="img/Pnaranja.jpg" alt="Pastel de Chocolate">
+      <h3>Pastel de naranja</h3>
+      <p>Delicioso pastel naranja.</p>
+      <div class="precio">$200</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Chocolate', 250)">Agregar al carrito</button>
+    </div>
+
+    <div class="catalogo">
+    <div class="producto-card">
+      <img src="img/Pelote.jpg" alt="Pastel de Chocolate">
+      <h3>Pastel de Elote</h3>
+      <p>Delicioso pastel</p>
+      <div class="precio">$250</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Chocolate', 250)">Agregar al carrito</button>
+    </div>
+
+    <div class="catalogo">
+    <div class="producto-card">
+      <img src="img/Pfruta.jpg" alt="Pastel de Chocolate">
+      <h3>Pastel con Fruta</h3>
+      <p>Delicioso pastel fresco.</p>
+      <div class="precio">$190</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Chocolate', 250)">Agregar al carrito</button>
+    </div>
+
+    <div class="producto-card">
+      <img src="img/Pfresas.jpg" alt="Pastel de Fresa">
+      <h3>Pastel de Fresa</h3>
+      <p>Con fresas naturales y crema batida suave.</p>
+      <div class="precio">$270</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Fresa', 270)">Agregar al carrito</button>
+    </div>
+
+    <div class="producto-card">
+      <img src="img/Pzanahoria.jpg" alt="Pastel de Fresa">
+      <h3>Pastel de Zanahoria</h3>
+      <p>Con Zanahoria fresca.</p>
+      <div class="precio">$290</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Pastel de Fresa', 270)">Agregar al carrito</button>
+    </div>
+
+    <div class="producto-card">
+      <img src="img/Predvelvet.jpg" alt="Red Velvet">
+      <h3>Red Velvet</h3>
+      <p>Pastel aterciopelado con queso crema.</p>
+      <div class="precio">$290</div>
+      <button class="boton-agregar" onclick="agregarAlCarrito('Red Velvet', 290)">Agregar al carrito</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modalCarrito">
+    <div class="modal-contenido">
+      <h2>Tu carrito</h2>
+      <ul id="listaCarrito"></ul>
+      <div class="total" id="totalCarrito"></div>
+      <div id="mensajeCompra">
+        <i class="fas fa-check-circle"></i><br>
+        ¡Gracias por tu compra! 🧁<br>
+        Tu pedido será procesado con amor.<br>
+        <button onclick="cerrarModal()">OK</button>
+      </div>
+      <div id="botonesCarrito">
+        <button class="comprar-btn" onclick="comprarCarrito()">Comprar ahora</button>
+        <button class="cerrar-modal" onclick="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function obtenerCarrito() {
+      return JSON.parse(localStorage.getItem("carrito")) || [];
+    }
+
+    function guardarCarrito(carrito) {
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+    }
+
+    function actualizarContador() {
+      const carrito = obtenerCarrito();
+      document.getElementById('contador').innerText = carrito.length;
+    }
+
+    function agregarAlCarrito(nombre, precio) {
+      const carrito = obtenerCarrito();
+      carrito.push({ nombre, precio });
+      guardarCarrito(carrito);
+      actualizarContador();
+    }
+
+    function eliminarProducto(index) {
+      const carrito = obtenerCarrito();
+      carrito.splice(index, 1);
+      guardarCarrito(carrito);
+      actualizarContador();
+      mostrarModal();
+    }
+
+    function mostrarModal() {
+      const carrito = obtenerCarrito();
+      const lista = document.getElementById("listaCarrito");
+      const totalDiv = document.getElementById("totalCarrito");
+      lista.innerHTML = "";
+      document.getElementById("mensajeCompra").style.display = "none";
+      document.getElementById("botonesCarrito").style.display = "flex";
+
+      let total = 0;
+
+      if (carrito.length === 0) {
+        lista.innerHTML = "<li>Tu carrito está vacío.</li>";
+        totalDiv.textContent = "";
+      } else {
+        carrito.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            ${item.nombre} - $${item.precio}
+            <button onclick="eliminarProducto(${index})" title="Eliminar">X</button>
+          `;
+          lista.appendChild(li);
+          total += item.precio;
+        });
+        totalDiv.textContent = `Total: $${total}`;
+      }
+
+      document.getElementById("modalCarrito").style.display = "flex";
+    }
+
+    function cerrarModal() {
+      document.getElementById("modalCarrito").style.display = "none";
+    }
+
+    function comprarCarrito() {
+      localStorage.removeItem("carrito");
+      actualizarContador();
+      document.getElementById("listaCarrito").innerHTML = "";
+      document.getElementById("totalCarrito").textContent = "";
+      document.getElementById("botonesCarrito").style.display = "none";
+      document.getElementById("mensajeCompra").style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", actualizarContador);
+  </script>
+</body>
+</html>

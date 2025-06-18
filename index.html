@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chococrush - Inicio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #FFEFF3, #FFF7FA);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      color: #4B2E2E;
+    }
+
+    .logo {
+      width: 200px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    h1 {
+      font-size: 30px;
+      color: #DE5D83;
+      margin-bottom: 10px;
+    }
+
+    .subtitulo {
+      font-size: 17px;
+      color: #7C4A53;
+      margin-bottom: 35px;
+    }
+
+    .menu-grid {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .menu-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #FFD6DC;
+      border: none;
+      border-radius: 20px;
+      padding: 16px 22px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #4B2E2E;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .menu-button:hover {
+      background-color: #FFB9C5;
+      transform: translateY(-2px);
+    }
+
+    .menu-button i {
+      color: #B8415D;
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #B38291;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <img class="logo" src="img/logo.png" alt="">
+  <h1>Chococrush</h1>
+  <p class="subtitulo">La pastelería más dulce para ti</p>
+
+  <div class="menu-grid">
+    <button class="menu-button" onclick="location.href='menu.html'">
+      Ver Menú <i class="fas fa-utensils"></i>
+    </button>
+    <button class="menu-button" onclick="location.href='personaliza.html'">
+      Personaliza tu Pastel <i class="fas fa-cake-candles"></i>
+    </button>
+    <button class="menu-button" onclick="location.href='pedido.html'">
+      Hacer Pedido <i class="fas fa-truck"></i>
+    </button>
+    <button class="menu-button" onclick="location.href='cuenta.html'">
+      Cita de Prueba <i class="fas fa-calendar-check"></i>
+    </button>
+    <button class="menu-button" onclick="location.href='promociones.html'">
+      Promociones <i class="fas fa-gift"></i>
+    </button>
+  </div>
+
+  <footer>
+   
+  </footer>
+</body>
+</html>

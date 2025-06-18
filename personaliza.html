@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personaliza tu Pastel - Chococrush</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #FFEFF3;
+      margin: 0;
+      padding: 20px;
+      color: #4B2E2E;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    a.volver {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 20px;
+      color: #DE5D83;
+      background-color: white;
+      border-radius: 50%;
+      padding: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-decoration: none;
+      z-index: 999;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #DE5D83;
+      margin-bottom: 20px;
+    }
+
+    .producto {
+      background-color: #FFD6DC;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    select, textarea {
+      width: 90%;
+      padding: 12px 16px;
+      margin-top: 10px;
+      border-radius: 15px;
+      border: none;
+      font-size: 14px;
+      background-color: #FFF7FA;
+      color: #4B2E2E;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      appearance: none;
+      background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg"><polygon points="70,100 20,40 120,40" fill="%23DE5D83"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    .boton-agregar {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .boton-agregar:hover {
+      background-color: #c44c70;
+      transform: translateY(-2px);
+    }
+
+    .carrito-icono {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #DE5D83;
+      color: white;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .contador-carrito {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #fff;
+      color: #DE5D83;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-contenido {
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      color: #4B2E2E;
+    }
+
+    .modal-contenido ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 15px 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .modal-contenido li {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .modal-contenido li button {
+      background: none;
+      border: none;
+      color: #DE5D83;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .cerrar-modal, .comprar-btn {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    #mensajeCompra {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #FFEDF1;
+      border-radius: 15px;
+      text-align: center;
+      color: #B8415D;
+    }
+
+    #mensajeCompra button {
+      background-color: #DE5D83;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <a class="volver" href="index.html"><i class="fas fa-arrow-left"></i></a>
+  <h1>Personaliza tu Pastel</h1>
+
+  <div class="carrito-icono" onclick="mostrarModal()">
+    <i class="fas fa-shopping-cart"></i>
+    <div class="contador-carrito" id="contador">0</div>
+  </div>
+
+  <div class="producto">
+    <h3>Tamaño</h3>
+    <select id="tamano">
+      <option>Chico</option>
+      <option>Mediano</option>
+      <option>Grande</option>
+    </select>
+  </div>
+
+  <div class="producto">
+    <h3>Sabor</h3>
+    <select id="sabor">
+      <option>Chocolate</option>
+      <option>Vainilla</option>
+      <option>Fresa</option>
+      <option>Red Velvet</option>
+    </select>
+  </div>
+
+  <div class="producto">
+    <h3>Relleno</h3>
+    <select id="relleno">
+      <option>Crema</option>
+      <option>Chocolate</option>
+      <option>Fruta</option>
+    </select>
+  </div>
+
+  <div class="producto">
+    <h3>Decoración</h3>
+    <select id="decoracion">
+      <option>Frutas</option>
+      <option>Flores</option>
+      <option>Glaseado</option>
+      <option>Temática</option>
+    </select>
+  </div>
+
+  <div class="producto">
+    <h3>Notas especiales</h3>
+    <textarea id="notas" placeholder="Escribe aquí tus instrucciones..."></textarea>
+  </div>
+
+  <button class="boton-agregar" onclick="agregarPastelPersonalizado()">Agregar al carrito</button>
+
+  <div class="modal" id="modalCarrito">
+    <div class="modal-contenido">
+      <h2>Tu carrito</h2>
+      <ul id="listaCarrito"></ul>
+      <div class="total" id="totalCarrito"></div>
+      <div id="mensajeCompra">
+        <i class="fas fa-check-circle"></i><br>
+        ¡Gracias por tu compra! 🧁<br>
+        Tu pedido será procesado con amor.<br>
+        <button onclick="cerrarModal()">OK</button>
+      </div>
+      <div id="botonesCarrito">
+        <button class="comprar-btn" onclick="comprarCarrito()">Comprar ahora</button>
+        <button class="cerrar-modal" onclick="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function obtenerCarrito() {
+      return JSON.parse(localStorage.getItem("carrito")) || [];
+    }
+
+    function guardarCarrito(carrito) {
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+    }
+
+    function actualizarContador() {
+      const carrito = obtenerCarrito();
+      const contador = document.getElementById('contador');
+      if (contador) contador.innerText = carrito.length;
+    }
+
+    function agregarPastelPersonalizado() {
+      const tamano = document.getElementById('tamano').value;
+      const sabor = document.getElementById('sabor').value;
+      const relleno = document.getElementById('relleno').value;
+      const decoracion = document.getElementById('decoracion').value;
+      const notas = document.getElementById('notas').value;
+
+      const descripcion = `Pastel ${tamano} de ${sabor} con relleno de ${relleno}, decoración de ${decoracion}${notas ? ' - Notas: ' + notas : ''}`;
+      const precio = 250;
+
+      const carrito = obtenerCarrito();
+      carrito.push({ nombre: descripcion, precio });
+      guardarCarrito(carrito);
+      actualizarContador();
+    }
+
+    function eliminarProducto(index) {
+      const carrito = obtenerCarrito();
+      carrito.splice(index, 1);
+      guardarCarrito(carrito);
+      actualizarContador();
+      mostrarModal();
+    }
+
+    function mostrarModal() {
+      const modal = document.getElementById("modalCarrito");
+      const lista = document.getElementById("listaCarrito");
+      const totalDiv = document.getElementById("totalCarrito");
+      const carrito = obtenerCarrito();
+
+      lista.innerHTML = "";
+      document.getElementById("mensajeCompra").style.display = "none";
+      document.getElementById("botonesCarrito").style.display = "flex";
+
+      let total = 0;
+
+      if (carrito.length === 0) {
+        lista.innerHTML = "<li>Tu carrito está vacío.</li>";
+        totalDiv.textContent = "";
+      } else {
+        carrito.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            ${item.nombre} - $${item.precio}
+            <button onclick="eliminarProducto(${index})" title="Eliminar">X</button>
+          `;
+          lista.appendChild(li);
+          total += item.precio;
+        });
+        totalDiv.textContent = `Total: $${total}`;
+      }
+
+      modal.style.display = "flex";
+    }
+
+    function cerrarModal() {
+      document.getElementById("modalCarrito").style.display = "none";
+    }
+
+    function comprarCarrito() {
+      localStorage.removeItem("carrito");
+      actualizarContador();
+      document.getElementById("listaCarrito").innerHTML = "";
+      document.getElementById("totalCarrito").textContent = "";
+      document.getElementById("botonesCarrito").style.display = "none";
+      document.getElementById("mensajeCompra").style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      actualizarContador();
+    });
+  </script>
+</body>
+</html>
